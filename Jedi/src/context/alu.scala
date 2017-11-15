@@ -159,11 +159,16 @@ private def add(vals: List[Value]): Value = {
     }
   }
   
-  /**
- * @param vals
- * @return
+  /** less than comparison<br><p>
+   *  -Throw TypeException if vals.length != 2<br>
+   *  -Try cast vals into List of Integer then compare them<br>
+   *  -Try cast vals into List of Real then compare them<br>
+   *  -Try cast vals into List of Text then compare them (see String comparison)<br>
+   *  -Throw TypeException if all fail</p>
+ * @param vals a pair of Value to be compared
+ * @return Boole vals(0) &lt; vals(1)
  */
-def less(vals: List[Value]): Value = {
+private def less(vals: List[Value]): Value = {
     if (vals.length  != 2) throw new TypeException("less expects two inputs")
     try {
       val nums = castAsIntegers(vals, "less")
@@ -183,25 +188,74 @@ def less(vals: List[Value]): Value = {
     }
   }
   
-  def equal(vals: List[Value]): Value = {
-    if (vals.length < 2) throw new TypeException("equal expects at least two inputs")
+  /** greater than comparison<br><p>
+   *  -Throw TypeException if vals.length != 2<br>
+   *  -Try cast vals into List of Integer then compare them<br>
+   *  -Try cast vals into List of Real then compare them<br>
+   *  -Try cast vals into List of Text then compare them (see String comparison)<br>
+   *  -Throw TypeException if all fail</p>
+ * @param vals a pair of Value to be compared
+ * @return Boole vals(0) &gt; vals(1)
+ */
+private def more(vals: List[Value]): Value = {
+    if (vals.length  != 2) throw new TypeException("more expects two inputs")
     try {
-      val nums = castAsIntegers(vals, "less")
-      Boole(nums(0) == nums(1))
+      val nums = castAsIntegers(vals, "more")
+      Boole(nums(0) > nums(1))
     } catch {
       case e: TypeException => {
         try {
-          val nums = castAsReals(vals, "less")
-          Boole(nums(0) < nums(1))
+          val nums = castAsReals(vals, "more")
+          Boole(nums(0) > nums(1))
         } catch {
           case e: TypeException => {
-            val texts = castAsTexts(vals, "less")
-            Boole(texts(0) < texts(1))
+            val texts = castAsTexts(vals, "more")
+            Boole(texts(0) > texts(1))
           }
         }
       }
     }
   }
+  
+  /** -throw TypeException if vals has less than 2 elements <br>
+   *  -return if all elements are equal. Note mismatch type return false instead of Error
+   *  
+ * @param vals List of Value to be compared
+ * @return all elements in vals are equal
+ */
+  private def equals(vals: List[Value]): Value = {
+    if (vals.length < 2) throw new TypeException("equals expects at least two inputs")
+    // Type mismatch, return false
+//    if (vals.filter(_.isInstanceOf[Integer]).length != vals.length) Boole(false)
+//    if (vals.filter(_.isInstanceOf[Real]).length != vals.length) Boole(false)
+//    if (vals.filter(_.isInstanceOf[Text]).length != vals.length) Boole(false)
+    Boole(vals.distinct.length==1)
+  }
+  
+  /** -Throw TypeException if vals.length != 2<br>
+   *  -return !equals(vals)
+   *  
+ * @param vals List of Value to be compared
+ * @return elements in vals are not equal
+ */
+  private def unequals(vals: List[Value]): Value = {
+    if (vals.length  != 2) throw new TypeException("unequals expects two inputs")
+    !(equals(vals).asInstanceOf[Boole])
+  }
+  
+  /** -Throw TypeException if vals.length != 2<br>
+   *  -Throw TypeException if vals is not type Boole<br>
+   *  -return !vals(0) 
+   *  
+ * @param vals the Value to be negate
+ * @return vals(0)'s negation
+ */
+  private def not(vals: List[Value]): Value = {
+    if (vals.length  != 1) throw new TypeException("not expects one input")
+    if (!vals(0).isInstanceOf[Boole]) throw new TypeException("not expects Boole as input")
+    !vals(0).asInstanceOf[Boole]
+  }
+
  
    def write(vals: List[Value]): Value = { println(vals(0)); Notification.DONE }
    def read(vals: List[Value]): Value = { val result = io.StdIn.readDouble(); Real(result)}

@@ -1,3 +1,4 @@
+/*
 package context
 
 import value._
@@ -122,3 +123,4 @@ object console {
        }
    }
 }
+*/
