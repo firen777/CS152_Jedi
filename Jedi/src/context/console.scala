@@ -47,7 +47,7 @@ object console {
               println(e)
               if (verbose) e.printStackTrace()
             }
-            case e: UndefinedException => {
+            case e: TypeException => {
               println(e)
               if (verbose) e.printStackTrace()
             }
