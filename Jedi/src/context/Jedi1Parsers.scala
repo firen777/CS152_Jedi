@@ -55,12 +55,15 @@ class Jedi1Parsers extends RegexParsers {
 
    
   // negate(exp) = 0 - exp
-  private def negate(exp: Expression): Expression = {
+  /** ALU perform 0 - exp
+ * @param exp Expression
+ * @return -exp
+ */
+private def negate(exp: Expression): Expression = {
     val sub = Identifier("sub")
     val zero = Integer(0)
     FunCall(sub, List(zero, exp))
   }
-    
   // sum ::= product ~ ("+" | "-") ~ product)*  
   def sum: Parser[Expression] = product ~ rep(("+"|"-") ~ product ^^ {
     case "+"~s=>s
@@ -68,16 +71,26 @@ class Jedi1Parsers extends RegexParsers {
     })^^{
     case p~Nil=> p
     case p~rest=>FunCall(Identifier("add"), p::rest)
-    }
+  }
     
+  /**ALU perform 1 / exp
+ * @param exp Expression
+ * @return 1/exp
+ */
+private def invert(exp: Expression): Expression = {
+    val div = Identifier("div")
+    val one = Integer(1)
+    FunCall(div, List(one, exp))
+  }
  // product ::= term ~ (("*" | "/") ~ term)*
   def product: Parser[Expression] = term ~ rep(("*"|"/") ~ term ^^ {
     case "*"~s=>s
-    case "/"~s=> negate(s)
+    case "/"~s=> invert(s)
     })^^{
     case p~Nil=> p
     case p~rest=>FunCall(Identifier("mul"), p::rest)
     }
+  
       
  def term: Parser[Expression]  = funCall | literal | "("~>expression<~")"
    

@@ -10,6 +10,7 @@ case class Identifier (val name:String) extends Expression {
   override def toString = name
   /** Execute id in Environment table<br>
    *  throw UndefinedException if not in the table
+   *  @throws UndefinedException
  * @param env Environment table
  * @return Value result
  */

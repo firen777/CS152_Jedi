@@ -13,6 +13,7 @@ case class Declaration (val id:Identifier, val exp:Expression) extends SpecialFo
   
   /** Attempt to store id-exp pair in Environment table<br>
    *  throw exception if id already defined
+   *  @throws TypeException
  * @param env Environment table
  * @return Value Notification.OK
  */

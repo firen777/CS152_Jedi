@@ -15,6 +15,7 @@ case class Conditional(val cond:Expression, val cons: Expression, val alt:Expres
   
   /** Given condition, execute consequence or alternative <br>
    *  type check and throw exception if cond is not Boole
+   *  @throws TypeException
  * @param env Environment table
  * @return Value consequence or alternative or Notification.UNSPECIFIED
  */
