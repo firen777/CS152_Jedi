@@ -45,8 +45,13 @@ class Jedi1Parsers extends RegexParsers {
    }
    
    // inequality ::= sum ~ (("<" | ">" | "!=") ~ sum)?
+   def  inequality: Parser[Expression] = sum ~ opt(("<" | ">" | "!=") ~ sum) ^^ {
+     case con ~ None => con
+     case con ~ Some("<" ~ s) => FunCall(Identifier("less"), List(con, s))
+     case con ~ Some(">" ~ s) => FunCall(Identifier("more"), List(con, s))
+     case con ~ Some("!=" ~ s) => FunCall(Identifier("unequals"), List(con, s))
+   }
    
-   // 
 
    
   // negate(exp) = 0 - exp
@@ -72,7 +77,6 @@ class Jedi1Parsers extends RegexParsers {
     })^^{
     case p~Nil=> p
     case p~rest=>FunCall(Identifier("mul"), p::rest)
-    wut
     }
       
  def term: Parser[Expression]  = funCall | literal | "("~>expression<~")"
@@ -86,13 +90,19 @@ class Jedi1Parsers extends RegexParsers {
  }
  
  // integer ::= 0|(\+|-)?[1-9][0-9]*
- def integer: Parser[Integer] = """\"[^"]+\"""".r ^^ {
-     case chars => Integer(chars.substring(1, chars.length - 1))
+ def integer: Parser[Integer] = """0|(\+|-)?[1-9][0-9]*"""".r ^^ {
+     case chars => Integer(chars.toInt)
  }
  
  // real ::= (\+|-)?[0-9]+\.[0-9]+
+ def real: Parser[Integer] = """(\+|-)?[0-9]+\.[0-9]+"""".r ^^ {
+     case chars => Real(chars.toDouble)
+ }
  
  // boole ::= true | false
+ def boole: Parser[Boole] = """true|false""".r ^^ {
+   case chars => Boole(chars.toBoolean)
+ }
 
  // identifier ::= [a-zA-Z][a-zA-Z0-9]*
  def identifier: Parser[Identifier] = """[a-zA-Z][a-zA-Z0-9]*""".r ^^ {
@@ -100,8 +110,12 @@ class Jedi1Parsers extends RegexParsers {
  }
  
  // funCall ::= identifier ~ operands
- def funCall: Parser[FunCall] = identifier ~ operands
+ def funCall: Parser[FunCall] = identifier ~ operands ^^{
+   
+ }
  
  // operands ::= "(" ~ (expression ~ ("," ~ expression)*)? ~ ")"
-  
+ def operands: Parser[List[Expression]] = "(" ~ opt(expression ~ rep("," ~ expression)) ~ ")" ^^{
+   
+ }
 }
