@@ -79,7 +79,7 @@ private def negate(exp: Expression): Expression = {
  */
 private def invert(exp: Expression): Expression = {
     val div = Identifier("div")
-    val one = Integer(1)
+    val one = Real(1.0)
     FunCall(div, List(one, exp))
   }
  // product ::= term ~ (("*" | "/") ~ term)*
@@ -108,7 +108,7 @@ private def invert(exp: Expression): Expression = {
  }
  
  // real ::= (\+|-)?[0-9]+\.[0-9]+
- def real: Parser[Integer] = """(\+|-)?[0-9]+\.[0-9]+""".r ^^ {
+ def real: Parser[Real] = """(\+|-)?[0-9]+\.[0-9]+""".r ^^ {
      case chars => Real(chars.toDouble)
  }
  

@@ -21,7 +21,7 @@ case class Conditional(val cond:Expression, val cons: Expression, val alt:Expres
  */
   override def execute(env:Environment):Value = {
     val condVal = cond.execute(env)
-    if (condVal.isInstanceOf[Boole]) throw new TypeException("Condition need to be Boole")
+    if (!condVal.isInstanceOf[Boole]) throw new TypeException("Condition need to be Boole")
     if (condVal.asInstanceOf[Boole].value) cons.execute(env)
     else if (alt!=null) alt.execute(env)
     else Notification.UNSPECIFIED
