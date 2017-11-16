@@ -2,6 +2,9 @@ package value
 
 import expression.Literal
 
+/**extends expression.Literal with Equals
+ * @param value Boolean
+ */
 case class Boole(val value:Boolean) extends Literal with Equals {
   def &&(other: Boole) = Boole(this.value && other.value)
   def ||(other: Boole) = Boole(this.value || other.value)

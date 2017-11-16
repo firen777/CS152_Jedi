@@ -1,5 +1,8 @@
 package value
 
+/**extends value.Value
+ * @param acknowledgement String
+ */
 class Notification (val acknowledgement: String) extends Value{
   override def toString = acknowledgement
 }

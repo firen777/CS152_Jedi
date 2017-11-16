@@ -2,6 +2,9 @@ package value
 
 import expression.Literal
 
+/**extends expression.Literal with Ordered[Integer] with Equals
+ * @param value Int
+ */
 case class Integer(val value:Int) extends Literal with Ordered[Integer] with Equals {
   def +(other: Integer) = Integer(this.value + other.value)
   def -(other: Integer) = Integer(this.value - other.value)

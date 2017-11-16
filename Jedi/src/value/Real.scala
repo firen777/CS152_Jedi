@@ -2,6 +2,9 @@ package value
 
 import expression.Literal
 
+/**extends expression.Literal with Ordered[Real] with Equals
+ * @param value Double
+ */
 case class Real(val value:Double) extends Literal with Ordered[Real] with Equals {
   def +(other: Real) = Real(this.value + other.value)
   def -(other: Real) = Real(this.value - other.value)

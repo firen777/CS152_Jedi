@@ -3,6 +3,9 @@ package expression
 import context.Environment
 import value.Value
 
+/**extends expression.SpecialForm
+ * @param expressions 
+ */
 case class Block (val expressions:List[Expression]) extends SpecialForm{
   
   def execute(env:Environment):Value = {

@@ -2,6 +2,9 @@ package value
 
 import expression.Literal
 
+/**extends expression.Literal with Ordered[Text] with Equals
+ * @param value String
+ */
 case class Text(val value:String) extends Literal with Ordered[Text] with Equals {
   //concatenation
   def +(other: Text) = Text(this.value + other.value)
