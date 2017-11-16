@@ -111,11 +111,14 @@ class Jedi1Parsers extends RegexParsers {
  
  // funCall ::= identifier ~ operands
  def funCall: Parser[FunCall] = identifier ~ operands ^^{
-   
+   case id~op => FunCall(id,op)
  }
  
  // operands ::= "(" ~ (expression ~ ("," ~ expression)*)? ~ ")"
- def operands: Parser[List[Expression]] = "(" ~ opt(expression ~ rep("," ~ expression)) ~ ")" ^^{
-   
+ def operands: Parser[List[Expression]] = "(" ~> opt(expression ~ rep("," ~> expression)) <~ ")" ^^{
+   case None => Nil
+   case Some(e ~ Nil) => List(e)
+   case Some(e ~ exps) => e::exps
+   case _ => Nil
  }
 }

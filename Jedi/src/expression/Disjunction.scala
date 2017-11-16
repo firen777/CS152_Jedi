@@ -7,17 +7,12 @@ import context.TypeException
 
 case class Disjunction(val exps:List[Expression]) extends SpecialForm {
   override def execute(env: Environment):Value = {
-    if (exps.filter(_.isInstanceOf[Boole]).length != exps.length) 
-      throw new TypeException("Disjunction inputs must be Boole")
-    def eval(head: Expression, tail: List[Expression]):Value = {
-      if (tail == Nil) head.execute(env) //base case, one element only. return execute
-      if (!head.execute(env).asInstanceOf[Boole].value) 
-        Boole(false)
-      eval(tail(0), tail.tail)
-      
+    for (e <- exps) {
+      if (!e.execute(env).isInstanceOf[Boole]) 
+        throw new TypeException("Disjunction inputs must be Boole")
+      if (e.execute(env).asInstanceOf[Boole].value) 
+        return Boole(true)
     }
-    
-    eval (exps(0), exps.tail)
-    
+    return Boole(false)
   }
 }
