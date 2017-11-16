@@ -103,12 +103,12 @@ private def invert(exp: Expression): Expression = {
  }
  
  // integer ::= 0|(\+|-)?[1-9][0-9]*
- def integer: Parser[Integer] = """0|(\+|-)?[1-9][0-9]*"""".r ^^ {
+ def integer: Parser[Integer] = """0|(\+|-)?[1-9][0-9]*""".r ^^ {
      case chars => Integer(chars.toInt)
  }
  
  // real ::= (\+|-)?[0-9]+\.[0-9]+
- def real: Parser[Integer] = """(\+|-)?[0-9]+\.[0-9]+"""".r ^^ {
+ def real: Parser[Integer] = """(\+|-)?[0-9]+\.[0-9]+""".r ^^ {
      case chars => Real(chars.toDouble)
  }
  
