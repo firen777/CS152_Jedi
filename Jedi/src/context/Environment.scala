@@ -3,7 +3,9 @@ package context
 import scala.collection.mutable._
 import value._
 import expression._
-
+/**Hash Map for value
+ * @param extension extension to parent block's Environment. Default null.
+ */
 class Environment(var extension: Environment = null)
    extends HashMap[Identifier, Value] with Value {
 

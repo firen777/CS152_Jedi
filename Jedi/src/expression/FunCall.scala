@@ -3,6 +3,8 @@ package expression
 import context.Environment
 import value.Value
 import context.alu
+import context.UndefinedException
+import value.Closure
 
 /**extends expression.Expression
  * @param operator Identifier
@@ -16,7 +18,16 @@ case class FunCall(val operator: Identifier, val operands: List[Expression]) ext
  * @return Value ALU result
  */
   def execute (env: Environment) : Value = {
-    val args = operands.map(_.execute(env))
-    alu.execute(operator, args)
+    try {
+      val args = operands.map(_.execute(env))
+      alu.execute(operator, args)
+    } catch {
+      case e: UndefinedException =>  {
+        val closureTemp = operator.execute(env)
+        if (closureTemp.isInstanceOf[Closure]) closureTemp
+        null 
+        //if operator.execute is a closure, call closure (args).
+      }
+    }
   }
 }
