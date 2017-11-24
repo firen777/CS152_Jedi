@@ -10,6 +10,12 @@ class Environment(var extension: Environment = null)
    extends HashMap[Identifier, Value] with Value {
 
   // used by closures to bind parameters to arguments
+  /**Construct Identifier <-> Value pairs in the table.<br>
+   * Throw Exception if both List are different length
+   * @throws TypeException
+   * @param params List of Identifier
+   * @param args List of Value
+   */
   def bulkPut(params: List[Identifier], args: List[Value]) {
     if (params.length != args.length) throw new TypeException("# arguments != #parameters")
     for(i <- 0 until params.length) this.put(params(i), args(i))
