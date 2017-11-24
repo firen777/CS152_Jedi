@@ -4,14 +4,21 @@ import expression.Identifier
 import expression.Expression
 import context.Environment
 
-class Closure(params:Identifier, body:Expression, defEnv:Environment) extends Value {
+class Closure(params:List[Identifier], body:Expression, defEnv:Environment) extends Value {
   
-  def apply(ars:List[Value], callEnv:Environment=null):Value = {
-    null
-    /* 1.create tempEnv extending def Env //extra credit: callingEnv if DynamicFlag = true
-     * 2.bulk put params = args in tempEnv
-     * 3.body.exec(tempEnv)
-     */
-    
+  
+  /**<ul>
+   * <li>create tempEnv extending def Env //extra credit: callingEnv if DynamicFlag = true</li>
+   * <li>bulk put params <-> args in tempEnv<li/>
+   * <li>body.exec(tempEnv)<li/>
+   * </ul>
+   * @param args arguments of the Closure
+   * @param callEnv
+   * @return body.exec(tempEnv)
+   */
+  def apply(args:List[Value], callEnv:Environment=null):Value = {
+    val tempEnv = new Environment(defEnv)
+    tempEnv.bulkPut(params, args)
+    body.execute(tempEnv)
   }
 }

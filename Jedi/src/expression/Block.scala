@@ -4,21 +4,18 @@ import context.Environment
 import value.Value
 
 /**extends expression.SpecialForm
- * @param expressions 
+ * @param expressions List of Expression to be executed
  */
 case class Block (val expressions:List[Expression]) extends SpecialForm{
   
-/** 
- *  
- *  @throws
- * @param env Parent Environment table
- * @return Value
- */
-def execute(env:Environment):Value = {
+  /**execute the List of Expression relative to the local environment
+   * @param env Parent Environment table
+   * @return Value last value of the Block
+   */
+  def execute(env:Environment):Value = {
     val localEnv = new Environment(env)
-    // iterate through expressions executing each one relative to localEnv
-    // return last value
     
-    null
+    val executed = expressions.map(_.execute(localEnv))
+    executed.last
   }
 }
