@@ -15,7 +15,7 @@ case class FunCall(val operator: Identifier, val operands: List[Expression]) ext
   /** eager execute operands to produce arguments<br>
    *  then ask ALU to execute operator with arguments
  * @param env Environment table
- * @return Value ALU result
+ * @return Value result
  */
   def execute (env: Environment) : Value = {
     try {
@@ -25,7 +25,7 @@ case class FunCall(val operator: Identifier, val operands: List[Expression]) ext
       case e: UndefinedException =>  {
         val closureTemp = operator.execute(env)
         if (closureTemp.isInstanceOf[Closure]) closureTemp
-        null 
+        
         //if operator.execute is a closure, call closure (args).
       }
     }

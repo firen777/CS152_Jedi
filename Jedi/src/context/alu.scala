@@ -15,7 +15,12 @@ import value._
  */
 object alu {
   // dispatcher
-  def execute(opcode: Identifier, args: List[Value]): Value = {
+  /**default ALU function
+ * @param opcode Identifier
+ * @param args
+ * @return
+ */
+def execute(opcode: Identifier, args: List[Value]): Value = {
     opcode.name match {
       case "add" => add(args)
       case "mul" => mul(args)

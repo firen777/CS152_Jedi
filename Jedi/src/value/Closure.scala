@@ -4,6 +4,12 @@ import expression.Identifier
 import expression.Expression
 import context.Environment
 
+/**functions that remember their defining environment<br>
+ * extends value.Value 
+ * @param params List of Identifier
+ * @param body Expression
+ * @param defEnv Environment
+ */
 class Closure(params:List[Identifier], body:Expression, defEnv:Environment) extends Value {
   
   
