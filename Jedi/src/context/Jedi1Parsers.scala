@@ -73,10 +73,7 @@ private def negate(exp: Expression): Expression = {
     case p~rest=>FunCall(Identifier("add"), p::rest)
   }
     
-  /**ALU perform 1 / exp
- * @param exp Expression
- * @return 1/exp
- */
+/*
 private def invert(exp: Expression): Expression = {
     val div = Identifier("div")
     val one = Real(1.0)
@@ -90,6 +87,25 @@ private def invert(exp: Expression): Expression = {
     case p~Nil=> p
     case p~rest=>FunCall(Identifier("mul"), p::rest)
     }
+*/
+  
+  // product ::= term ~ (("*" | "/") ~ term)*
+  def product: Parser[Expression] = term ~ rep(("*"|"/") ~ term) ^^ {
+     case (t ~ blah) => parseProduct(t, blah)
+  }
+  
+  /** generates left-to-right calls to mul and div:
+ * @param t Expression
+ * @param terms List of Parsers of (String, Expression) tuple. (...?)
+ * @return 
+ */
+private  def parseProduct(t: Expression, terms: List[~[String, Expression]]): Expression = {
+     terms match {
+       case Nil => t
+       case ~("*", t1)::more => parseProduct(FunCall(Identifier("mul"), List(t, t1)), more)
+       case ~("/", t1)::more => parseProduct(FunCall(Identifier("div"), List(t, t1)), more)
+     }
+ }
   
       
  def term: Parser[Expression]  = funCall | literal | "("~>expression<~")"
