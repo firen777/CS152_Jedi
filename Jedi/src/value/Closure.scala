@@ -19,7 +19,7 @@ class Closure(params:List[Identifier], body:Expression, defEnv:Environment) exte
    * <li>body.exec(tempEnv)<li/>
    * </ul>
    * @param args arguments of the Closure
-   * @param callEnv
+   * @param callEnv default null //extra credit, not yet implemented
    * @return body.exec(tempEnv)
    */
   def apply(args:List[Value], callEnv:Environment=null):Value = {

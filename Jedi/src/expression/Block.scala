@@ -10,12 +10,12 @@ case class Block (val expressions:List[Expression]) extends SpecialForm{
   
   /**execute the List of Expression relative to the local environment
    * @param env Parent Environment table
-   * @return Value last value of the Block
+   * @return last Value of the Block
    */
-  def execute(env:Environment):Value = {
-    val localEnv = new Environment(env)
+  override def execute(env:Environment):Value = {
+    val tempEnv = new Environment(env)
     
-    val executed = expressions.map(_.execute(localEnv))
+    val executed = expressions.map(_.execute(tempEnv))
     executed.last
   }
 }

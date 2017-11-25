@@ -8,7 +8,12 @@ import value.Value
  * @param params List of Identifier
  * @param body Expression
  */
-class Lambda(params:List[Identifier], body:Expression) extends SpecialForm {
+case class Lambda(params:List[Identifier], body:Expression) extends SpecialForm {
+  
+  /**
+   * @param env Environment table
+   * @return Closure(params, body, env)
+   */
   def execute(env:Environment):Value = {
     new Closure(params, body, env)
   }

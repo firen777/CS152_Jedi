@@ -14,9 +14,9 @@ case class Disjunction(val exps:List[Expression]) extends SpecialForm {
    *   type check and throw exception if one of them is not Boole
    *   return true when one of them is true
    *   @throws TypeException
- * @param env Environment table
- * @return Value Boole(true) or Boole(false)
- */
+   * @param env Environment table
+   * @return Value Boole(true) or Boole(false)
+	 */
   override def execute(env: Environment):Value = {
     for (e <- exps) {
       if (!e.execute(env).isInstanceOf[Boole]) 

@@ -8,16 +8,17 @@ import context.UndefinedException
  */
 case class Identifier (val name:String) extends Expression {
   override def toString = name
-  /** Execute id in Environment table<br>
-   *  throw UndefinedException if not in the table
+  /** Execute id in Environment table as well as parent chain of tables<br>
+   *  throw UndefinedException if not in the chain of tables
    *  @throws UndefinedException
- * @param env Environment table
- * @return Value result
- */
+   * @param env Environment table
+   * @return Value result
+   */
   override def execute(env: Environment) = {
-    env.get(this) match {
-      case None => throw new UndefinedException (this)
-      case Some(value) => value
-    }
+//    env.get(this) match {
+//      case None => throw new UndefinedException (this)
+//      case Some(value) => value
+//    }
+    env(this)
   }
 }
