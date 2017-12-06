@@ -2,7 +2,7 @@ package expression
 
 import context.Environment
 import value.Value
-import context.alu
+import context.alu2
 import context.UndefinedException
 import value.Closure
 import context.TypeException
@@ -24,7 +24,7 @@ case class FunCall(val operator: Identifier, val operands: List[Expression]) ext
     val args = operands.map(_.execute(env))
     
     try {
-      alu.execute(operator, args)
+      alu2.execute(operator, args)
     } catch {
       case e: UndefinedException =>  {
         val closureTemp = operator.execute(env)
