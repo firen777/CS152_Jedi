@@ -166,8 +166,12 @@ object alu2 {
 
    // variable ops
    
-   // returns the content of args(0)
-   private def dereference(args: List[Value]) = {???}
+   
+   /**returns the content of args(0)
+   * @param args
+   * @return
+   */
+  private def dereference(args: List[Value]):Value = {args(0)}
    
    // creates a new variable cobtaining args(0)
    private def makeVar(args: List[Value]) = {???}
@@ -175,7 +179,11 @@ object alu2 {
    // store ops
    
    // returns a new store containing args
-   private def store(args: List[Value]) = {???}
+   private def store(args: List[Value]) = {
+     val s = new Store
+     args.foreach(x=>{s.add(x)})
+     s
+   }
    
    // put(v: Value, p: Integer, s: Store) calls s.put(v, p)
    private def put(args: List[Value]) = {
@@ -186,10 +194,19 @@ object alu2 {
    } 
    
    // rem(p: Integer, s: Store) calls s.rem(p)
-   private def rem(args: List[Value]) = {???}
+   private def rem(args: List[Value]) = {
+     if (args.size != 2 || !args(0).isInstanceOf[Integer] || !args(1).isInstanceOf[Store])
+       throw new TypeException("expected signature: rem(p: Integer, s: Store)")
+     args(1).asInstanceOf[Store].rem(args(0).asInstanceOf[Integer])
+     Notification.DONE
+   }
    
    // get(p: Integer, s: Store) calls s.get(p)
-   private def get(args: List[Value]) = {???}
+   private def get(args: List[Value]) = {
+     if (args.size != 2 || !args(0).isInstanceOf[Integer] || !args(1).isInstanceOf[Store])
+       throw new TypeException("expected signature: get(p: Integer, s: Store)")
+     args(1).asInstanceOf[Store].get(args(0).asInstanceOf[Integer])
+   }
    
    // map(f: Closure, s: Store) calls s.map(f)
    private def map(args: List[Value]) = {???} 

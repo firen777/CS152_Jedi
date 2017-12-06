@@ -15,8 +15,8 @@ class Closure(params:List[Identifier], body:Expression, defEnv:Environment) exte
   
   /**<ul>
    * <li>create tempEnv extending def Env //extra credit: callingEnv if DynamicFlag = true</li>
-   * <li>bulk put params <-> args in tempEnv<li/>
-   * <li>body.exec(tempEnv)<li/>
+   * <li>bulk put params <-> args in tempEnv</li>
+   * <li>body.exec(tempEnv)</li>
    * </ul>
    * @param args arguments of the Closure
    * @param callEnv default null //extra credit, not yet implemented
