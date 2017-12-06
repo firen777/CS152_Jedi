@@ -1,8 +1,13 @@
 package value
 
 /**extends value.Value
- * @param v
+ * @param content
  */
-class Variable (val v: Value) extends Value{
+class Variable (val content: Value) extends Value{
+  /**
+   * @return "[%s]" where %s is content.toString
+   */
+  override def toString = "[" + content.toString + "]"
   
+  def deRef = content
 }

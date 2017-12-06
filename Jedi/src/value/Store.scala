@@ -48,6 +48,7 @@ class Store extends Value {
    */
   override def toString = {elems.toString}
   
+  
   /**returns store containing the elements of this transformed by trans<br>
    * Just like map function
    * @param trans
@@ -59,7 +60,12 @@ class Store extends Value {
     newStore
   }
   
-  // returns store containing the elements of this that passed test
+
+  /**returns store containing the elements of this that passed test<br>
+   * Just like filter function
+   * @param test
+   * @return
+   */
   def filter(test: Closure): Store = {
     def filterHelp(x: Value): Boolean = {
       val result = test(List(x))
@@ -71,5 +77,6 @@ class Store extends Value {
     val newStore = new Store
     elems.foreach(x=>{if (filterHelp(x)) newStore.add(x)})
     newStore
+  
   }
 }

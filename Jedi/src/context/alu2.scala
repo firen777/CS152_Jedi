@@ -167,14 +167,17 @@ object alu2 {
    // variable ops
    
    
-   /**returns the content of args(0)
-   * @param args
-   * @return
-   */
-  private def dereference(args: List[Value]):Value = {args(0)}
+   // returns the content of args(0)
+   private def dereference(args: List[Value]):Value = {
+     if (args.size != 1 || !args(0).isInstanceOf[Variable])
+       throw new TypeException("expected signature: [v: Variable]")
+     args(0).asInstanceOf[Variable].deRef
+   }
    
    // creates a new variable cobtaining args(0)
-   private def makeVar(args: List[Value]) = {???}
+   private def makeVar(args: List[Value]) = {
+     new Variable(args(0))
+   }
    
    // store ops
    
@@ -209,19 +212,40 @@ object alu2 {
    }
    
    // map(f: Closure, s: Store) calls s.map(f)
-   private def map(args: List[Value]) = {???} 
+   private def map(args: List[Value]) = {
+     if (args.size != 2 || !args(0).isInstanceOf[Closure] || !args(1).isInstanceOf[Store])
+       throw new TypeException("expected signature: map(f: Closure, s: Store)")
+     args(1).asInstanceOf[Store].map(args(0).asInstanceOf[Closure])
+   } 
    
    // filter(f: Closure, s: Store) calls s.filter(f)
-   private def filter(args: List[Value]) = {???} 
+   private def filter(args: List[Value]) = {
+     if (args.size != 2 || !args(0).isInstanceOf[Closure] || !args(1).isInstanceOf[Store])
+       throw new TypeException("expected signature: filter(f: Closure, s: Store)")
+     args(1).asInstanceOf[Store].filter(args(0).asInstanceOf[Closure])
+   } 
    
    // contains(v: Value, s: Store) calls s.contains(v)
-   private def contains(args: List[Value]) = {???}
+   private def contains(args: List[Value]) = {
+     if (args.size != 2 || !args(0).isInstanceOf[Value] || !args(1).isInstanceOf[Store])
+       throw new TypeException("expected signature: contains(v: Value, s: Store)")
+     args(1).asInstanceOf[Store].contains(args(0).asInstanceOf[Value])
+   }
    
    // addLast(v: Value, s: Store) calls s.add(v)
-   private def addLast(args: List[Value]) = {???}
+   private def addLast(args: List[Value]) = {
+     if (args.size != 2 || !args(0).isInstanceOf[Value] || !args(1).isInstanceOf[Store])
+       throw new TypeException("expected signature: addLast(v: Value, s: Store)")
+     args(1).asInstanceOf[Store].add(args(0).asInstanceOf[Value])
+     Notification.DONE
+   }
    
    // size(s: Store) calls s.size
-   private def size(args: List[Value]) = {???}
+   private def size(args: List[Value]) = {
+     if(args.size != 1 || !args(0).isInstanceOf[Store])
+       throw new TypeException("expected signature: size(s: Store)")
+     args(0).asInstanceOf[Store].size
+   }
    
   // etc.
 }
