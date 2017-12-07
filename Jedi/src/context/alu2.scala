@@ -171,7 +171,7 @@ object alu2 {
    private def dereference(args: List[Value]):Value = {
      if (args.size != 1 || !args(0).isInstanceOf[Variable])
        throw new TypeException("expected signature: [v: Variable]")
-     args(0).asInstanceOf[Variable].deRef
+     args(0).asInstanceOf[Variable].content
    }
    
    // creates a new variable cobtaining args(0)

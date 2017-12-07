@@ -21,13 +21,14 @@ case class Iteration(val condition:Expression, val body:Expression) extends Spec
    * @return Value Notification.DONE
    */
   override def execute(env:Environment):Value = {
+
     if (!condition.execute(env).isInstanceOf[Boole])
       throw new TypeException("Condition need to be of type Boole.")
     else
-      while (condition.execute(env).asInstanceOf[Boole].value)
+      while (condition.execute(env).asInstanceOf[Boole].value) 
         body.execute(env)
-    
-    Notification.DONE
+
+      Notification.DONE
   }
   
 }

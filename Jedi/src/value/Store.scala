@@ -46,7 +46,11 @@ class Store extends Value {
   /**toString function
    * @return "{e0 e1 e2 ...}"
    */
-  override def toString = {elems.toString}
+  override def toString = {
+    var s = ""
+    elems.foreach(x=>{s = s.concat(x.toString + " ")})
+    "{ " + s + "}"
+  }
   
   
   /**returns store containing the elements of this transformed by trans<br>

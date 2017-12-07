@@ -3,20 +3,29 @@ package expression
 import context.Environment
 import value.Value
 import value.Notification
+import value.Integer
+import value.Variable
+import context.TypeException
 
 
-/**id = exp <br>
+/**vbl = update <br>
  * extends expression.SpecialForm
  * @param vbl
  * @param update
  */
-case class Assignment(val id: Identifier, val exp: Expression) extends SpecialForm {
-  /** Update id-exp pair in Environment table<br>
+case class Assignment(val vbl: Identifier, val update: Expression) extends SpecialForm {
+  /**Update vbl->var's content in Environment table<br>
+   * throws TypeException if not a variable.
+   * @throws TypeException 
    * @param env Environment table
    * @return Value Notification.DONE
    */
   override def execute(env:Environment):Value = {
-    env.put(id, exp.execute(env))
+    val v = vbl.execute(env)
+    if (!v.isInstanceOf[Variable])
+      throw new TypeException("Can only modify Variable.")
+    else
+      v.asInstanceOf[Variable].content = update.execute(env)
     Notification.DONE
   }
 }
