@@ -12,11 +12,17 @@ class Jedi4Parsers extends Jedi3Parsers {
   }
   
   // override the inherited identifier parser with a parser that can handle qualified names:
-  override def identifier: Parser[Identifier] = name ~ rep("." ~> name) ^^ {???}
+  override def identifier: Parser[Identifier] = name ~ rep("." ~> name) ^^ {
+    case chars ~ Nil => Identifier(chars)
+    case chars ~ more => ???
+  }
   
   // define the object parser:
   // obj ::=  "object" ~ "{" ~ declaration ~ (";" ~ declaration)* ~ "}" ~ opt("extends" ~ identifier)
   // note that "object" is a Scala reserved word, so we must name our parser obj.
+  def obj: Parser[Obj] = "object" ~ "{" ~ declaration ~ rep(";" ~ declaration) ~ "}" ~ opt("extends" ~ identifier) ^^ {
+    ???
+  }
   
   override def term: Parser[Expression]  = obj | lambda | funCall | block | assignment | dereference | literal | "("~>expression<~")"
 }
