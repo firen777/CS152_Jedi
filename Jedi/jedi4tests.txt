@@ -1,0 +1,17 @@
+def acct1 = object{def bal = var(100.0); def deposit = lambda(amt) bal = [bal] + amt}
+acct1.bal
+acct1.deposit(67.0)
+acct1.bal
+
+def acct2 = object {def withdraw = lambda(amt) bal = [bal] - amt} extends acct1
+acct2.bal
+acct2.withdraw(19)
+acct2.bal
+
+def makeAccount = lambda(initAmount) object{def bal = var(initAmount); def deposit = lambda(amt) bal = [bal] + amt; def withdraw = lambda(amt) bal = [bal] - amt}
+def savings = makeAccount(50.2)
+def checking = makeAccount(93.2)
+savings.withdraw(25)
+checking.deposit(25)
+checking.bal
+savings.bal
